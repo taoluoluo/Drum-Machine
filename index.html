@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drum Machine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#165DFF',
+                        secondary: '#FF7D00',
+                        dark: '#1E293B',
+                        light: '#F8FAFC'
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .drum-pad-active {
+                transform: scale(0.95);
+                box-shadow: 0 0 10px rgba(22, 93, 255, 0.7);
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 font-inter text-light flex flex-col items-center justify-center p-4">
+    <div class="text-center mb-8">
+        <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary">Drum Machine</h1>
+        <p class="text-gray-400 max-w-md mx-auto">Play beats with your keyboard or mouse. Click or press keys Q, W, E, A, S, D, Z, X, C to play sounds.</p>
+    </div>
+
+    <div id="drum-machine" class="w-full max-w-4xl bg-dark/50 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-700 p-6 md:p-8">
+        <div class="flex flex-col md:flex-row gap-8">
+            <!-- Drum Pads Section -->
+            <div class="w-full md:w-2/3">
+                <h2 class="text-xl font-semibold mb-4 text-primary flex items-center">
+                    <i class="fa fa-music mr-2"></i> Drum Pads
+                </h2>
+                <div class="grid grid-cols-3 gap-4">
+                    <!-- Drum Pad Q -->
+                    <div id="Q" class="drum-pad bg-gray-800 hover:bg-gray-700 border-2 border-gray-700 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 shadow-lg hover:shadow-primary/20" data-sound="Heater 1">
+                        <span class="text-3xl font-bold mb-2">Q</span>
+                        <audio class="clip" id="Q" src="https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3"></audio>
+                        <p class="text-sm text-gray-400">Heater 1</p>
+                    </div>
+                    
+                    <!-- Drum Pad W -->
+                    <div id="W" class="drum-pad bg-gray-800 hover:bg-gray-700 border-2 border-gray-700 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 shadow-lg hover:shadow-primary/20" data-sound="Heater 2">
+                        <span class="text-3xl font-bold mb-2">W</span>
+                        <audio class="clip" id="W" src="https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3"></audio>
+                        <p class="text-sm text-gray-400">Heater 2</p>
+                    </div>
+                    
+                    <!-- Drum Pad E -->
+                    <div id="E" class="drum-pad bg-gray-800 hover:bg-gray-700 border-2 border-gray-700 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 shadow-lg hover:shadow-primary/20" data-sound="Heater 3">
+                        <span class="text-3xl font-bold mb-2">E</span>
+                        <audio class="clip" id="E" src="https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3"></audio>
+                        <p class="text-sm text-gray-400">Heater 3</p>
+                    </div>
+                    
+                    <!-- Drum Pad A -->
+                    <div id="A" class="drum-pad bg-gray-800 hover:bg-gray-700 border-2 border-gray-700 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 shadow-lg hover:shadow-primary/20" data-sound="Heater 4">
+                        <span class="text-3xl font-bold mb-2">A</span>
+                        <audio class="clip" id="A" src="https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3"></audio>
+                        <p class="text-sm text-gray-400">Heater 4</p>
+                    </div>
+                    
+                    <!-- Drum Pad S -->
+                    <div id="S" class="drum-pad bg-gray-800 hover:bg-gray-700 border-2 border-gray-700 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 shadow-lg hover:shadow-primary/20" data-sound="Clap">
+                        <span class="text-3xl font-bold mb-2">S</span>
+                        <audio class="clip" id="S" src="https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3"></audio>
+                        <p class="text-sm text-gray-400">Clap</p>
+                    </div>
+                    
+                    <!-- Drum Pad D -->
+                    <div id="D" class="drum-pad bg-gray-800 hover:bg-gray-700 border-2 border-gray-700 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 shadow-lg hover:shadow-primary/20" data-sound="Open-HH">
+                        <span class="text-3xl font-bold mb-2">D</span>
+                        <audio class="clip" id="D" src="https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3"></audio>
+                        <p class="text-sm text-gray-400">Open HH</p>
+                    </div>
+                    
+                    <!-- Drum Pad Z -->
+                    <div id="Z" class="drum-pad bg-gray-800 hover:bg-gray-700 border-2 border-gray-700 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 shadow-lg hover:shadow-primary/20" data-sound="Kick-n'-Hat">
+                        <span class="text-3xl font-bold mb-2">Z</span>
+                        <audio class="clip" id="Z" src="https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3"></audio>
+                        <p class="text-sm text-gray-400">Kick n Hat</p>
+                    </div>
+                    
+                    <!-- Drum Pad X -->
+                    <div id="X" class="drum-pad bg-gray-800 hover:bg-gray-700 border-2 border-gray-700 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 shadow-lg hover:shadow-primary/20" data-sound="Kick">
+                        <span class="text-3xl font-bold mb-2">X</span>
+                        <audio class="clip" id="X" src="https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3"></audio>
+                        <p class="text-sm text-gray-400">Kick</p>
+                    </div>
+                    
+                    <!-- Drum Pad C -->
+                    <div id="C" class="drum-pad bg-gray-800 hover:bg-gray-700 border-2 border-gray-700 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 shadow-lg hover:shadow-primary/20" data-sound="Closed-HH">
+                        <span class="text-3xl font-bold mb-2">C</span>
+                        <audio class="clip" id="C" src="https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3"></audio>
+                        <p class="text-sm text-gray-400">Closed HH</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Controls Section -->
+            <div class="w-full md:w-1/3 flex flex-col gap-6">
+                <h2 class="text-xl font-semibold mb-4 text-primary flex items-center">
+                    <i class="fa fa-sliders mr-2"></i> Controls
+                </h2>
+                
+                <!-- Display -->
+                <div id="display" class="bg-gray-800/70 border border-gray-700 rounded-lg p-4 h-24 flex items-center justify-center text-center">
+                    <p class="text-lg md:text-xl text-light/90">Press a key or click a pad</p>
+                </div>
+                
+                <!-- Volume Control -->
+                <div class="bg-gray-800/70 border border-gray-700 rounded-lg p-5">
+                    <div class="flex justify-between items-center mb-3">
+                        <label for="volume" class="text-gray-300">Volume</label>
+                        <span id="volume-value" class="text-primary font-medium">70</span>
+                    </div>
+                    <input type="range" id="volume" min="0" max="100" value="70" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary">
+                </div>
+                
+                <!-- Power Switch -->
+                <div class="bg-gray-800/70 border border-gray-700 rounded-lg p-5">
+                    <div class="flex justify-between items-center">
+                        <label for="power" class="text-gray-300">Power</label>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="power" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Bank Select -->
+                <div class="bg-gray-800/70 border border-gray-700 rounded-lg p-5">
+                    <div class="flex justify-between items-center">
+                        <label for="bank" class="text-gray-300">Sound Bank</label>
+                        <select id="bank" class="bg-gray-700 text-light border border-gray-600 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-primary">
+                            <option value="heater">Heater Kit</option>
+                            <option value="smooth">Smooth Piano Kit</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-8 text-center text-gray-500 text-sm">
+        <p>A drum machine app built with React and Tailwind CSS</p>
+    </footer>
+
+    <script>
+        // Import React and ReactDOM
+        const { createElement, useState, useEffect } = React;
+        const { createRoot } = ReactDOM;
+
+        // Drum Machine Component
+        const DrumMachine = () => {
+            const [displayText, setDisplayText] = useState('Press a key or click a pad');
+            const [volume, setVolume] = useState(0.7);
+            const [powerOn, setPowerOn] = useState(true);
+            const [soundBank, setSoundBank] = useState('heater');
+
+            // Define drum pads
+            const drumPads = [
+                {
+                    key: 'Q',
+                    id: 'Q',
+                    soundId: 'Heater 1',
+                    src: soundBank === 'heater' 
+                        ? 'https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3' 
+                        : 'https://s3.amazonaws.com/freecodecamp/drums/Chord_1.mp3',
+                    keyCode: 81
+                },
+                {
+                    key: 'W',
+                    id: 'W',
+                    soundId: 'Heater 2',
+                    src: soundBank === 'heater' 
+                        ? 'https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3' 
+                        : 'https://s3.amazonaws.com/freecodecamp/drums/Chord_2.mp3',
+                    keyCode: 87
+                },
+                {
+                    key: 'E',
+                    id: 'E',
+                    soundId: 'Heater 3',
+                    src: soundBank === 'heater' 
+                        ? 'https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3' 
+                        : 'https://s3.amazonaws.com/freecodecamp/drums/Chord_3.mp3',
+                    keyCode: 69
+                },
+                {
+                    key: 'A',
+                    id: 'A',
+                    soundId: 'Heater 4',
+                    src: soundBank === 'heater' 
+                        ? 'https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3' 
+                        : 'https://s3.amazonaws.com/freecodecamp/drums/Give_us_a_light.mp3',
+                    keyCode: 65
+                },
+                {
+                    key: 'S',
+                    id: 'S',
+                    soundId: 'Clap',
+                    src: soundBank === 'heater' 
+                        ? 'https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3' 
+                        : 'https://s3.amazonaws.com/freecodecamp/drums/Dry_Ohh.mp3',
+                    keyCode: 83
+                },
+                {
+                    key: 'D',
+                    id: 'D',
+                    soundId: 'Open-HH',
+                    src: soundBank === 'heater' 
+                        ? 'https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3' 
+                        : 'https://s3.amazonaws.com/freecodecamp/drums/Bld_H1.mp3',
+                    keyCode: 68
+                },
+                {
+                    key: 'Z',
+                    id: 'Z',
+                    soundId: 'Kick-n-Hat',
+                    src: soundBank === 'heater' 
+                        ? 'https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3' 
+                        : 'https://s3.amazonaws.com/freecodecamp/drums/punchy_kick_1.mp3',
+                    keyCode: 90
+                },
+                {
+                    key: 'X',
+                    id: 'X',
+                    soundId: 'Kick',
+                    src: soundBank === 'heater' 
+                        ? 'https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3' 
+                        : 'https://s3.amazonaws.com/freecodecamp/drums/side_stick_1.mp3',
+                    keyCode: 88
+                },
+                {
+                    key: 'C',
+                    id: 'C',
+                    soundId: 'Closed-HH',
+                    src: soundBank === 'heater' 
+                        ? 'https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3' 
+                        : 'https://s3.amazonaws.com/freecodecamp/drums/Brk_Snr.mp3',
+                    keyCode: 67
+                }
+            ];
+
+            // Handle drum pad click
+            const handleDrumPadClick = (key) => {
+                if (!powerOn) return;
+                
+                const pad = document.getElementById(key);
+                const audio = document.getElementById(key);
+                
+                // Play sound
+                audio.volume = volume;
+                audio.currentTime = 0;
+                audio.play();
+                
+                // Set display text
+                setDisplayText(pad.dataset.sound);
+                
+                // Add active class
+                pad.classList.add('drum-pad-active', 'border-primary');
+                setTimeout(() => {
+                    pad.classList.remove('drum-pad-active', 'border-primary');
+                }, 150);
+            };
+
+            // Handle volume change
+            const handleVolumeChange = (e) => {
+                const newVolume = parseFloat(e.target.value) / 100;
+                setVolume(newVolume);
+                document.getElementById('volume-value').textContent = e.target.value;
+                
+                // Update all audio elements volume
+                document.querySelectorAll('.clip').forEach(audio => {
+                    audio.volume = newVolume;
+                });
+            };
+
+            // Handle power toggle
+            const handlePowerToggle = () => {
+                setPowerOn(!powerOn);
+                if (!powerOn) {
+                    setDisplayText('Power On');
+                } else {
+                    setDisplayText('Power Off');
+                }
+            };
+
+            // Handle sound bank change
+            const handleSoundBankChange = (e) => {
+                if (!powerOn) return;
+                
+                const newBank = e.target.value;
+                setSoundBank(newBank);
+                
+                // Update display text
+                setDisplayText(newBank === 'heater' ? 'Heater Kit' : 'Smooth Piano Kit');
+                
+                // Update audio sources
+                drumPads.forEach(pad => {
+                    const audio = document.getElementById(pad.key);
+                    audio.src = newBank === 'heater' 
+                        ? pad.src.replace('Chord', 'Heater') 
+                        : pad.src.replace('Heater', 'Chord');
+                });
+            };
+
+            // Handle keydown event
+            useEffect(() => {
+                const handleKeyDown = (e) => {
+                    if (!powerOn) return;
+                    
+                    const pad = drumPads.find(p => p.keyCode === e.keyCode);
+                    if (pad) {
+                        e.preventDefault();
+                        handleDrumPadClick(pad.key);
+                    }
+                };
+
+                document.addEventListener('keydown', handleKeyDown);
+                return () => document.removeEventListener('keydown', handleKeyDown);
+            }, [powerOn]);
+
+            return (
+                <div id="drum-machine" className="w-full max-w-4xl bg-dark/50 backdrop-blur-lg rounded-2xl shadow-2xl border border-gray-700 p-6 md:p-8">
+                    <div className="flex flex-col md:flex-row gap-8">
+                        {/* Drum Pads Section */}
+                        <div className="w-full md:w-2/3">
+                            <h2 className="text-xl font-semibold mb-4 text-primary flex items-center">
+                                <i className="fa fa-music mr-2"></i> Drum Pads
+                            </h2>
+                            <div className="grid grid-cols-3 gap-4">
+                                {drumPads.map(pad => (
+                                    <div 
+                                        key={pad.key}
+                                        id={pad.key}
+                                        className="drum-pad bg-gray-800 hover:bg-gray-700 border-2 border-gray-700 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer transition-all duration-200 shadow-lg hover:shadow-primary/20"
+                                        data-sound={pad.soundId}
+                                        onClick={() => handleDrumPadClick(pad.key)}
+                                    >
+                                        <span className="text-3xl font-bold mb-2">{pad.key}</span>
+                                        <audio 
+                                            className="clip" 
+                                            id={pad.key} 
+                                            src={pad.src}
+                                        ></audio>
+                                        <p className="text-sm text-gray-400">{pad.soundId}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        
+                        {/* Controls Section */}
+                        <div className="w-full md:w-1/3 flex flex-col gap-6">
+                            <h2 className="text-xl font-semibold mb-4 text-primary flex items-center">
+                                <i className="fa fa-sliders mr-2"></i> Controls
+                            </h2>
+                            
+                            {/* Display */}
+                            <div id="display" className="bg-gray-800/70 border border-gray-700 rounded-lg p-4 h-24 flex items-center justify-center text-center">
+                                <p className="text-lg md:text-xl text-light/90">{displayText}</p>
+                            </div>
+                            
+                            {/* Volume Control */}
+                            <div className="bg-gray-800/70 border border-gray-700 rounded-lg p-5">
+                                <div className="flex justify-between items-center mb-3">
+                                    <label htmlFor="volume" className="text-gray-300">Volume</label>
+                                    <span id="volume-value" className="text-primary font-medium">{Math.round(volume * 100)}</span>
+                                </div>
+                                <input 
+                                    type="range" 
+                                    id="volume" 
+                                    min="0" 
+                                    max="100" 
+                                    value={Math.round(volume * 100)}
+                                    className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary"
+                                    onChange={handleVolumeChange}
+                                />
+                            </div>
+                            
+                            {/* Power Switch */}
+                            <div className="bg-gray-800/70 border border-gray-700 rounded-lg p-5">
+                                <div className="flex justify-between items-center">
+                                    <label htmlFor="power" className="text-gray-300">Power</label>
+                                    <label className="relative inline-flex items-center cursor-pointer">
+                                        <input 
+                                            type="checkbox" 
+                                            id="power" 
+                                            className="sr-only peer"
+                                            checked={powerOn}
+                                            onChange={handlePowerToggle}
+                                        />
+                                        <div className="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            {/* Bank Select */}
+                            <div className="bg-gray-800/70 border border-gray-700 rounded-lg p-5">
+                                <div className="flex justify-between items-center">
+                                    <label htmlFor="bank" className="text-gray-300">Sound Bank</label>
+                                    <select 
+                                        id="bank" 
+                                        className="bg-gray-700 text-light border border-gray-600 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-primary"
+                                        value={soundBank}
+                                        onChange={handleSoundBankChange}
+                                    >
+                                        <option value="heater">Heater Kit</option>
+                                        <option value="smooth">Smooth Piano Kit</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Render the app
+        const root = createRoot(document.getElementById('drum-machine'));
+        root.render(createElement(DrumMachine));
+    </script>
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+</body>
+</html>
+    
